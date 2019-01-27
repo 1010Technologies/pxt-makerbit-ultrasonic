@@ -1,0 +1,8 @@
+{
+  "DistanceUnit.CM|block": "cm",
+  "DistanceUnit.INCH|block": "inch",
+  "makerbit.getUltrasonicDistance|block": "ultrasonic distance in %unit | with Trig at %trig | and Echo at %echo",
+  "makerbit|block": "MakerBit",
+  "{id:category}Makerbit": "Makerbit",
+  "{id:subcategory}Ultrasonic": "Ultrasonic"
+}

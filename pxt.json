@@ -1,0 +1,19 @@
+{
+    "name": "MakerBit-Ultrasonic",
+    "version": "0.0.1",
+    "description": "MPR121 capacitive touch sensor module for MakerBit",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "namespace.ts",
+        "README.md",
+        "ultrasonic.ts",
+        "_locales/de/MakerBit-Ultrasonic-strings.json"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": true
+}

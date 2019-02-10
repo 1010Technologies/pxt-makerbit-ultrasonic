@@ -48,7 +48,7 @@ makerbit.isUltrasonicDistanceLessThan(10, DistanceUnit.CM)
 
 ```blocks
 let distance = 0
-makerbit.connectUltrasonic(MakerBitPin.P5, MakerBitPin.P8)
+makerbit.connectUltrasonic(MakerBDigitalPinitPin.P5, DigitalPin.P8)
 basic.forever(() => {
     distance = makerbit.getUltrasonicDistance(DistanceUnit.CM)
     led.plotBarGraph(distance, 0)

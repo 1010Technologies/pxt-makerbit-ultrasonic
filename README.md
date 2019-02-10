@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/1010Technologies/pxt-makerbit-ultrasonic.svg?branch=master)](https://travis-ci.org/1010Technologies/pxt-makerbit-ultrasonic)
 
-MakeCode package for
+MakeCode extension for ultrasonic distance measurement with an HC-SR04 sensor.
 
 ## MakerBit Board
 
@@ -18,20 +18,39 @@ http://makerbit.com/
 
 Attach an external HC-SR04 ultrasonic distance sensor to steer your robots.
 
-### MakerBit getUltrasonicDistance
+### MakerBit connectUltrasonic
 
-Measures the distance and returns the result in a range from 1 to 300 centimeters or up to 118 inch. The maximum value is returned to indicate when no object was detected.
+Configures the ultrasonic sensor and measures continuously in the background.
 
 ```sig
-makerbit.getUltrasonicDistance(DistanceUnit.CM, MakerBitPin.P5, MakerBitPin.P8)
+makerbit.connectUltrasonic(DigitalPin.P5, DigitalPin.P8)
+```
+
+### MakerBit getUltrasonicDistance
+
+Returns the distance to an object in a range from 1 to 300 centimeters or up to 118 inch.
+The maximum value is returned to indicate when no object was detected.
+-1 is returned when the device is not connected.
+
+```sig
+makerbit.getUltrasonicDistance(DistanceUnit.CM)
+```
+
+### MakerBit isUltrasonicDistanceLessThan
+
+Returns `true` if an object is within the specified distance. `false` otherwise.
+
+```sig
+makerbit.isUltrasonicDistanceLessThan(10, DistanceUnit.CM)
 ```
 
 ### Ultrasonic Example: Distance Graph
 
 ```blocks
 let distance = 0
+makerbit.connectUltrasonic(MakerBitPin.P5, MakerBitPin.P8)
 basic.forever(() => {
-    distance = makerbit.getUltrasonicDistance(DistanceUnit.CM, MakerBitPin.P5, MakerBitPin.P8)
+    distance = makerbit.getUltrasonicDistance(DistanceUnit.CM)
     led.plotBarGraph(distance, 0)
 })
 ```

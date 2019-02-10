@@ -1,7 +1,9 @@
 {
   "DistanceUnit.CM|block": "cm",
   "DistanceUnit.INCH|block": "inch",
-  "makerbit.getUltrasonicDistance|block": "ultrasonic distance in %unit | with Trig at %trig | and Echo at %echo",
+  "makerbit.connectUltrasonic|block": "connect ultrasonic sensor | with Trig at %trig | and Echo at %echo",
+  "makerbit.getUltrasonicDistance|block": "ultrasonic distance in %unit",
+  "makerbit.isUltrasonicDistanceLessThan|block": "ultrasonic distance is less than |%distance|%unit",
   "makerbit|block": "MakerBit",
   "{id:category}Makerbit": "Makerbit",
   "{id:subcategory}Ultrasonic": "Ultrasonic"

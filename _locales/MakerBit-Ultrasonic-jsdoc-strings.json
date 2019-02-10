@@ -1,8 +1,10 @@
 {
-  "distance": "Ultrasonic tests",
   "makerbit": "MakerBit",
-  "makerbit.getUltrasonicDistance": "Measures the distance and returns the result in a range from 1 to 300 centimeters or up to 118 inch.\nThe maximum value is returned to indicate when no object was detected.",
-  "makerbit.getUltrasonicDistance|param|echo": "Pin connected to echo, eg: MakerBitPin.P8",
-  "makerbit.getUltrasonicDistance|param|trig": "pin connected to trig, eg: MakerBitPin.P5",
-  "makerbit.getUltrasonicDistance|param|unit": "unit of distance, eg: DistanceUnit.CM"
+  "makerbit.connectUltrasonic": "Configures the ultrasonic sensor and measures continuously in the background.",
+  "makerbit.connectUltrasonic|param|echo": "pin connected to echo, eg: DigitalPin.P8",
+  "makerbit.connectUltrasonic|param|trig": "pin connected to trig, eg: DigitalPin.P5",
+  "makerbit.getUltrasonicDistance": "Get the distance to an object and returns the result in a range\nfrom 1 to 300 centimeters or up to 118 inch.\nThe maximum value is returned to indicate when no object was detected.\n-1 is returned when the device is not connected.",
+  "makerbit.getUltrasonicDistance|param|unit": "unit of distance, eg: DistanceUnit.CM",
+  "makerbit.isUltrasonicDistanceLessThan": "Returns `true` if an object is within distance. `false` otherwise.\n* @param distance distance to object, eg: 10",
+  "makerbit.isUltrasonicDistanceLessThan|param|unit": "unit of distance, eg: DistanceUnit.CM"
 }

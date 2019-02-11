@@ -1,19 +1,17 @@
 {
-    "name": "MakerBit-Ultrasonic",
-    "version": "0.0.3",
-    "description": "MPR121 capacitive touch sensor module for MakerBit",
-    "license": "MIT",
-    "dependencies": {
-        "core": "*"
-    },
-    "files": [
-        "namespace.ts",
-        "README.md",
-        "ultrasonic.ts",
-        "_locales/de/MakerBit-Ultrasonic-strings.json"
-    ],
-    "testFiles": [
-        "test.ts"
-    ],
-    "public": true
+  "name": "MakerBit-Ultrasonic",
+  "version": "0.0.3",
+  "description": "Ultrasonic distance measurement with an HC-SR04 sensor",
+  "license": "MIT",
+  "dependencies": {
+    "core": "*"
+  },
+  "files": [
+    "namespace.ts",
+    "README.md",
+    "ultrasonic.ts",
+    "_locales/de/MakerBit-Ultrasonic-strings.json"
+  ],
+  "testFiles": ["test.ts"],
+  "public": true
 }

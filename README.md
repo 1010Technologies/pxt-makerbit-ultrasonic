@@ -16,7 +16,7 @@ http://makerbit.com/
 
 ## Ultrasonic
 
-Attach an external HC-SR04 ultrasonic distance sensor to steer your robots.
+Support for an external HC-SR04 ultrasonic distance sensor to steer your robots.
 
 ### MakerBit connectUltrasonic
 

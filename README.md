@@ -16,7 +16,7 @@ http://makerbit.com/
 
 ## Ultrasonic
 
-Support for an external HC-SR04 ultrasonic distance sensor to steer your robots.
+Support for an external HC-SR04 ultrasonic distance sensor to steer your robots. The blocks return immediately with the most recent value because measurements are done continuously in the background.
 
 ### MakerBit connectUltrasonic
 
@@ -48,7 +48,7 @@ makerbit.isUltrasonicDistanceLessThan(10, DistanceUnit.CM)
 
 ```blocks
 let distance = 0
-makerbit.connectUltrasonic(MakerBDigitalPinitPin.P5, DigitalPin.P8)
+makerbit.connectUltrasonic(DigitalPin.P5, DigitalPin.P8)
 basic.forever(() => {
     distance = makerbit.getUltrasonicDistance(DistanceUnit.CM)
     led.plotBarGraph(distance, 0)

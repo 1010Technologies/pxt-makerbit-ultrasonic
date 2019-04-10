@@ -9,6 +9,7 @@ const enum DistanceUnit {
 
 namespace makerbit {
   const MAX_ULTRASONIC_TRAVEL_TIME = 300 * DistanceUnit.CM;
+  const ULTRASONIC_MEASUREMENTS = 3;
 
   interface UltrasonicRoundTrip {
     ts: number;
@@ -50,7 +51,10 @@ namespace makerbit {
     };
 
     pins.onPulsed(echo, PulseValue.High, () => {
-      if (pins.pulseDuration() < MAX_ULTRASONIC_TRAVEL_TIME) {
+      if (
+        pins.pulseDuration() < MAX_ULTRASONIC_TRAVEL_TIME &&
+        ultrasonicDevice.roundTrips.length <= ULTRASONIC_MEASUREMENTS
+      ) {
         ultrasonicDevice.roundTrips.push({
           ts: input.runningTime(),
           rtt: pins.pulseDuration()
@@ -137,7 +141,7 @@ namespace makerbit {
         });
       }
 
-      if (trips.length > 3) {
+      while (trips.length > ULTRASONIC_MEASUREMENTS) {
         trips.shift();
       }
 

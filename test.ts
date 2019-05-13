@@ -2,7 +2,7 @@
  * Ultrasonic tests
  */
 
-makerbit.connectUltrasonic(DigitalPin.P5, DigitalPin.P8);
+makerbit.connectUltrasonicDistanceSensor(DigitalPin.P5, DigitalPin.P8);
 
 const distance: number = makerbit.getUltrasonicDistance(DistanceUnit.CM);
 

@@ -18,12 +18,12 @@ http://makerbit.com/
 
 Support for an external HC-SR04 ultrasonic distance sensor to steer your robots. The blocks return immediately with the most recent value because measurements are done continuously in the background.
 
-### MakerBit connectUltrasonic
+### MakerBit connectUltrasonicDistanceSensor
 
-Configures the ultrasonic sensor and measures continuously in the background.
+Configures the ultrasonic distance sensor and measures continuously in the background.
 
 ```sig
-makerbit.connectUltrasonic(DigitalPin.P5, DigitalPin.P8)
+makerbit.connectUltrasonicDistanceSensor(DigitalPin.P5, DigitalPin.P8)
 ```
 
 ### MakerBit getUltrasonicDistance

@@ -25,13 +25,13 @@ namespace makerbit {
   let ultrasonicDevice: UltrasonicDevice;
 
   /**
-   * Configures the ultrasonic sensor and measures continuously in the background.
+   * Configures the ultrasonic distance sensor and measures continuously in the background.
    * @param trig pin connected to trig, eg: DigitalPin.P5
    * @param echo pin connected to echo, eg: DigitalPin.P8
    */
   //% subcategory="Ultrasonic"
   //% blockId="makerbit_ultrasonic_connect"
-  //% block="connect ultrasonic sensor | with Trig at %trig | and Echo at %echo"
+  //% block="connect ultrasonic distance sensor | with Trig at %trig | and Echo at %echo"
   //% trig.fieldEditor="gridpicker"
   //% trig.fieldOptions.columns=4
   //% trig.fieldOptions.tooltips="false"
@@ -39,7 +39,10 @@ namespace makerbit {
   //% echo.fieldOptions.columns=4
   //% echo.fieldOptions.tooltips="false"
   //% weight=80
-  export function connectUltrasonic(trig: DigitalPin, echo: DigitalPin): void {
+  export function connectUltrasonicDistanceSensor(
+    trig: DigitalPin,
+    echo: DigitalPin
+  ): void {
     if (ultrasonicDevice) {
       return;
     }

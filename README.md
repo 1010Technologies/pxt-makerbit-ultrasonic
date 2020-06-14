@@ -26,6 +26,14 @@ Configures the ultrasonic distance sensor and measures continuously in the backg
 makerbit.connectUltrasonicDistanceSensor(DigitalPin.P5, DigitalPin.P8)
 ```
 
+### MakerBit onUltrasonicObjectDetected
+
+Do something when an object is detected within a range.
+
+```sig
+makerbit.onUltrasonicObjectDetected(10, DistanceUnit.CM, () => {})
+```
+
 ### MakerBit getUltrasonicDistance
 
 Returns the distance to an object in a range from 1 to 300 centimeters or up to 118 inch.

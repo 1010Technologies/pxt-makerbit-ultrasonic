@@ -74,7 +74,7 @@ namespace makerbit {
 
   /**
    * Do something when an object is detected within a range.
-   * @param distance distance to object, eg: 10
+   * @param distance distance to object, eg: 20
    * @param unit unit of distance, eg: DistanceUnit.CM
    * @param handler body code to run when the event is raised
    */
@@ -133,7 +133,7 @@ namespace makerbit {
   /**
    * Returns `true` if an object is within the specified distance. `false` otherwise.
    *
-   * @param distance distance to object, eg: 10
+   * @param distance distance to object, eg: 20
    * @param unit unit of distance, eg: DistanceUnit.CM
    */
   //% subcategory="Ultrasonic"

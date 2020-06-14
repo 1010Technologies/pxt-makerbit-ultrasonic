@@ -73,14 +73,14 @@ namespace makerbit {
   }
 
   /**
-   * Do something when an object is detected within a range.
+   * Do something when an object is detected the first time within a specified range.
    * @param distance distance to object, eg: 20
    * @param unit unit of distance, eg: DistanceUnit.CM
    * @param handler body code to run when the event is raised
    */
   //% subcategory="Ultrasonic"
   //% blockId=makerbit_ultrasonic_on_object_detected
-  //% block="on object detected within | %distance | %unit"
+  //% block="on object detected once within | %distance | %unit"
   //% weight=69
   export function onUltrasonicObjectDetected(
     distance: number,

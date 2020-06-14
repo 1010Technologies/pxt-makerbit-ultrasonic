@@ -4,6 +4,7 @@
   "makerbit.connectUltrasonicDistanceSensor|block": "connect ultrasonic distance sensor | with Trig at %trig | and Echo at %echo",
   "makerbit.getUltrasonicDistance|block": "ultrasonic distance in %unit",
   "makerbit.isUltrasonicDistanceLessThan|block": "ultrasonic distance is less than |%distance|%unit",
+  "makerbit.onUltrasonicObjectDetected|block": "on object detected within | %distance | %unit",
   "makerbit|block": "MakerBit",
   "{id:category}Makerbit": "Makerbit",
   "{id:subcategory}Ultrasonic": "Ultrasonic"

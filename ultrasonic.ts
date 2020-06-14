@@ -1,13 +1,11 @@
-// MakerBit blocks supporting a HC-SR04 ultrasonic distance sensor
-
 const enum DistanceUnit {
   //% block="cm"
   CM = 58, // Duration of echo round-trip in Microseconds (uS) for two centimeters, 343 m/s at sea level and 20°C
   //% block="inch"
-  INCH = 148 // Duration of echo round-trip in Microseconds (uS) for two inches, 343 m/s at sea level and 20°C
+  INCH = 148, // Duration of echo round-trip in Microseconds (uS) for two inches, 343 m/s at sea level and 20°C
 }
-
 namespace makerbit {
+  const MICROBIT_MAKERBIT_ULTRASONIC_OBJECT_DETECTED_ID = 798;
   const MAX_ULTRASONIC_TRAVEL_TIME = 300 * DistanceUnit.CM;
   const ULTRASONIC_MEASUREMENTS = 3;
 
@@ -17,12 +15,13 @@ namespace makerbit {
   }
 
   interface UltrasonicDevice {
-    trig: DigitalPin;
+    trig: DigitalPin | undefined;
     roundTrips: UltrasonicRoundTrip[];
     medianRoundTrip: number;
+    travelTimeObservers: number[];
   }
 
-  let ultrasonicDevice: UltrasonicDevice;
+  let ultrasonicState: UltrasonicDevice;
 
   /**
    * Configures the ultrasonic distance sensor and measures continuously in the background.
@@ -43,29 +42,75 @@ namespace makerbit {
     trig: DigitalPin,
     echo: DigitalPin
   ): void {
-    if (ultrasonicDevice) {
+    if (ultrasonicState && ultrasonicState.trig) {
       return;
     }
 
-    ultrasonicDevice = {
-      trig: trig,
-      roundTrips: [{ ts: 0, rtt: MAX_ULTRASONIC_TRAVEL_TIME }],
-      medianRoundTrip: MAX_ULTRASONIC_TRAVEL_TIME
-    };
+    if (!ultrasonicState) {
+      ultrasonicState = {
+        trig: trig,
+        roundTrips: [{ ts: 0, rtt: MAX_ULTRASONIC_TRAVEL_TIME }],
+        medianRoundTrip: MAX_ULTRASONIC_TRAVEL_TIME,
+        travelTimeObservers: [],
+      };
+    } else {
+      ultrasonicState.trig = trig;
+    }
 
     pins.onPulsed(echo, PulseValue.High, () => {
       if (
         pins.pulseDuration() < MAX_ULTRASONIC_TRAVEL_TIME &&
-        ultrasonicDevice.roundTrips.length <= ULTRASONIC_MEASUREMENTS
+        ultrasonicState.roundTrips.length <= ULTRASONIC_MEASUREMENTS
       ) {
-        ultrasonicDevice.roundTrips.push({
+        ultrasonicState.roundTrips.push({
           ts: input.runningTime(),
-          rtt: pins.pulseDuration()
+          rtt: pins.pulseDuration(),
         });
       }
     });
 
     control.inBackground(measureInBackground);
+  }
+
+  /**
+   * Do something when an object is detected within a range.
+   * @param distance distance to object, eg: 10
+   * @param unit unit of distance, eg: DistanceUnit.CM
+   * @param handler body code to run when the event is raised
+   */
+  //% subcategory="Ultrasonic"
+  //% blockId=makerbit_ultrasonic_on_object_detected
+  //% block="on object detected within | %distance | %unit"
+  //% weight=69
+  export function onUltrasonicObjectDetected(
+    distance: number,
+    unit: DistanceUnit,
+    handler: () => void
+  ) {
+    if (distance <= 0) {
+      return;
+    }
+
+    if (!ultrasonicState) {
+      ultrasonicState = {
+        trig: undefined,
+        roundTrips: [{ ts: 0, rtt: MAX_ULTRASONIC_TRAVEL_TIME }],
+        medianRoundTrip: MAX_ULTRASONIC_TRAVEL_TIME,
+        travelTimeObservers: [],
+      };
+    }
+
+    const travelTimeThreshold = Math.imul(distance, unit);
+
+    ultrasonicState.travelTimeObservers.push(travelTimeThreshold);
+
+    control.onEvent(
+      MICROBIT_MAKERBIT_ULTRASONIC_OBJECT_DETECTED_ID,
+      travelTimeThreshold,
+      () => {
+        handler();
+      }
+    );
   }
 
   /**
@@ -79,10 +124,10 @@ namespace makerbit {
   //% block="ultrasonic distance in %unit"
   //% weight=60
   export function getUltrasonicDistance(unit: DistanceUnit): number {
-    if (!ultrasonicDevice) {
+    if (!ultrasonicState) {
       return -1;
     }
-    return Math.idiv(ultrasonicDevice.medianRoundTrip, unit);
+    return Math.idiv(ultrasonicState.medianRoundTrip, unit);
   }
 
   /**
@@ -99,26 +144,26 @@ namespace makerbit {
     distance: number,
     unit: DistanceUnit
   ): boolean {
-    if (!ultrasonicDevice) {
+    if (!ultrasonicState) {
       return false;
     }
-    return Math.idiv(ultrasonicDevice.medianRoundTrip, unit) < distance;
+    return Math.idiv(ultrasonicState.medianRoundTrip, unit) < distance;
   }
 
   function triggerPulse() {
     // Reset trigger pin
-    pins.setPull(ultrasonicDevice.trig, PinPullMode.PullNone);
-    pins.digitalWritePin(ultrasonicDevice.trig, 0);
+    pins.setPull(ultrasonicState.trig, PinPullMode.PullNone);
+    pins.digitalWritePin(ultrasonicState.trig, 0);
     control.waitMicros(2);
 
     // Trigger pulse
-    pins.digitalWritePin(ultrasonicDevice.trig, 1);
+    pins.digitalWritePin(ultrasonicState.trig, 1);
     control.waitMicros(10);
-    pins.digitalWritePin(ultrasonicDevice.trig, 0);
+    pins.digitalWritePin(ultrasonicState.trig, 0);
   }
 
   function getMedianRRT(roundTrips: UltrasonicRoundTrip[]) {
-    const roundTripTimes = roundTrips.map(urt => urt.rtt);
+    const roundTripTimes = roundTrips.map((urt) => urt.rtt);
     return median(roundTripTimes);
   }
 
@@ -131,16 +176,16 @@ namespace makerbit {
   }
 
   function measureInBackground() {
-    const trips = ultrasonicDevice.roundTrips;
+    const trips = ultrasonicState.roundTrips;
     const TIME_BETWEEN_PULSE_MS = 145;
 
     while (true) {
       const now = input.runningTime();
 
       if (trips[trips.length - 1].ts < now - TIME_BETWEEN_PULSE_MS - 10) {
-        ultrasonicDevice.roundTrips.push({
+        ultrasonicState.roundTrips.push({
           ts: now,
-          rtt: MAX_ULTRASONIC_TRAVEL_TIME
+          rtt: MAX_ULTRASONIC_TRAVEL_TIME,
         });
       }
 
@@ -148,9 +193,27 @@ namespace makerbit {
         trips.shift();
       }
 
-      ultrasonicDevice.medianRoundTrip = getMedianRRT(
-        ultrasonicDevice.roundTrips
+      ultrasonicState.medianRoundTrip = getMedianRRT(
+        ultrasonicState.roundTrips
       );
+
+      for (let i = 0; i < ultrasonicState.travelTimeObservers.length; i++) {
+        const threshold = ultrasonicState.travelTimeObservers[i];
+        if (threshold > 0 && ultrasonicState.medianRoundTrip <= threshold) {
+          control.raiseEvent(
+            MICROBIT_MAKERBIT_ULTRASONIC_OBJECT_DETECTED_ID,
+            threshold
+          );
+          // use negative sign to indicate that we notified the event
+          ultrasonicState.travelTimeObservers[i] = -threshold;
+        } else if (
+          threshold < 0 &&
+          ultrasonicState.medianRoundTrip > -threshold
+        ) {
+          // object is outside the detection threshold -> re-activate observer
+          ultrasonicState.travelTimeObservers[i] = -threshold;
+        }
+      }
 
       triggerPulse();
       basic.pause(TIME_BETWEEN_PULSE_MS);

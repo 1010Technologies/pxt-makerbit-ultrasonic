@@ -138,7 +138,7 @@ namespace makerbit {
    */
   //% subcategory="Ultrasonic"
   //% blockId="makerbit_ultrasonic_less_than"
-  //% block="ultrasonic distance is less than |%distance|%unit"
+  //% block="ultrasonic distance is less than | %distance | %unit"
   //% weight=50
   export function isUltrasonicDistanceLessThan(
     distance: number,

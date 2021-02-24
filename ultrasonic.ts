@@ -127,6 +127,7 @@ namespace makerbit {
     if (!ultrasonicState) {
       return -1;
     }
+    basic.pause(0); // yield to allow background processing when called in a tight loop
     return Math.idiv(ultrasonicState.medianRoundTrip, unit);
   }
 
@@ -147,6 +148,7 @@ namespace makerbit {
     if (!ultrasonicState) {
       return false;
     }
+    basic.pause(0); // yield to allow background processing when called in a tight loop
     return Math.idiv(ultrasonicState.medianRoundTrip, unit) < distance;
   }
 

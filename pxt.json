@@ -7,7 +7,6 @@
         "core": "*"
     },
     "files": [
-        "namespace.ts",
         "README.md",
         "ultrasonic.ts",
         "_locales/de/MakerBit-Ultrasonic-strings.json"

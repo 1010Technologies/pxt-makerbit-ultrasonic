@@ -4,6 +4,9 @@ const enum DistanceUnit {
   //% block="inch"
   INCH = 148, // Duration of echo round-trip in Microseconds (uS) for two inches, 343 m/s at sea level and 20°C
 }
+
+//% color=#0fbc11 icon="\u272a" block="MakerBit"
+//% category="MakerBit"
 namespace makerbit {
   const MICROBIT_MAKERBIT_ULTRASONIC_OBJECT_DETECTED_ID = 798;
   const MAX_ULTRASONIC_TRAVEL_TIME = 300 * DistanceUnit.CM;

@@ -20,7 +20,7 @@ Support for an external HC-SR04 ultrasonic distance sensor to steer your robots.
 
 ### MakerBit connectUltrasonicDistanceSensor
 
-Configures the ultrasonic distance sensor and measures continuously in the background.
+Configures the ultrasonic distance sensor and measures continuously in the background. The HC-SR04 needs to be connected to a 5V source (HC-SR04 VCC) and to ground (HC-SR04 GND).
 
 ```sig
 makerbit.connectUltrasonicDistanceSensor(DigitalPin.P5, DigitalPin.P8)
